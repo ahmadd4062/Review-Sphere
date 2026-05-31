@@ -1,0 +1,426 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+
+  <!-- Bootstrap Carousel - SIMPLIFIED VERSION -->
+  <div class="carousel-container mb-5">
+    <div id="featuredReviewsCarousel" class="carousel slide">
+      <!-- Carousel Indicators -->
+      <div class="carousel-indicators">
+        <button type="button" onclick="showSlide(0)" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" onclick="showSlide(1)" aria-label="Slide 2"></button>
+        <button type="button" onclick="showSlide(2)" aria-label="Slide 3"></button>
+      </div>
+      
+      <!-- Carousel Items -->
+      <div class="carousel-inner rounded-4 shadow-lg overflow-hidden">
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+          <a href="#">
+            <div class="carousel-image-container" style="height: 400px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1925&q=80'); background-size: cover; background-position: center;">
+              <div class="carousel-caption d-none d-md-block p-4">
+                <div class="carousel-content bg-dark bg-opacity-75 p-4 rounded-3">
+                  <h2 class="display-6 fw-bold text-white">Latest Movie Reviews</h2>
+                  <p class="lead">Explore in-depth analysis of the newest cinematic releases. From blockbusters to indie gems.</p>
+                  <div class="d-flex align-items-center">
+                    <span class="badge bg-primary me-2">1000+ Reviews</span>
+                    <span class="badge bg-success">Updated Daily</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+          <a href="#">
+            <div class="carousel-image-container" style="height: 400px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://www.tasteofcinema.com/wp-content/uploads/2016/12/days-of-heaven.jpg'); background-size: cover; background-position: center;">
+              <div class="carousel-caption d-none d-md-block p-4">
+                <div class="carousel-content bg-dark bg-opacity-75 p-4 rounded-3">
+                  <h2 class="display-6 fw-bold text-white">TV Series Analysis</h2>
+                  <p class="lead">Dive deep into the latest TV series. Episode breakdowns, character analysis, and season reviews.</p>
+                  <div class="d-flex align-items-center">
+                    <span class="badge bg-warning me-2">15+ Series</span>
+                    <span class="badge bg-info">Season Updates</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+          <a href="#">
+            <div class="carousel-image-container" style="height: 400px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://www.tasteofcinema.com/wp-content/uploads/2014/08/Lawrence-of-Arabia-1962.jpg'); background-size: cover; background-position: center;">
+              <div class="carousel-caption d-none d-md-block p-4">
+                <div class="carousel-content bg-dark bg-opacity-75 p-4 rounded-3">
+                  <h2 class="display-6 fw-bold text-white">Community Favorites</h2>
+                  <p class="lead">Discover the most popular reviews rated by our community. See what everyone is talking about.</p>
+                  <div class="d-flex align-items-center">
+                    <span class="badge bg-danger me-2">Top Rated</span>
+                    <span class="badge bg-secondary">Community Choice</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Carousel Controls -->
+      <button class="carousel-control-prev" type="button" onclick="prevSlide()">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" onclick="nextSlide()">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Blog Cards Grid -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for blog in blogs %}
+    <div class="col">
+      <div class="card blog-card h-100 border-0 shadow-lg">
+
+        <!-- COVER IMAGE -->
+        {% if blog.cover_image %}
+        <img src="{{ blog.cover_image.url }}" 
+             alt="{{ blog.title }}" 
+             class="card-img-top"
+             style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;">
+        {% else %}
+        <!-- Placeholder if no cover image -->
+        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center"
+             style="height: 200px; border-radius: 15px 15px 0 0;">
+          <i class="fas fa-image fa-3x text-light opacity-50"></i>
+        </div>
+        {% endif %}
+
+        <div class="card-body p-4">
+
+          <!-- Review Type Badge -->
+          <div class="mb-2">
+            {% if blog.review_type %}
+            <span class="badge {% if blog.review_type == 'Movie' %}bg-info{% elif blog.review_type == 'TV Series' %}bg-warning{% else %}bg-secondary{% endif %}">
+              {{ blog.review_type }}
+            </span>
+            {% else %}
+            <span class="badge bg-secondary">No Type</span>
+            {% endif %}
+          </div>
+
+          <!-- Title -->
+          <h5 class="fw-bold mt-2">{{ blog.title }}</h5>
+
+          <!-- Author & Date -->
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <small class="text-muted">
+              <i class="fas fa-user me-1"></i>{{ blog.author.username }}
+            </small>
+            <small class="text-muted">
+              <i class="far fa-calendar me-1"></i>{{ blog.created_at|date:"M d, Y" }}
+            </small>
+          </div>
+
+          <!-- Content Preview -->
+          <p class="text-muted mt-3 flex-grow-1">
+            {{ blog.content|truncatechars:120 }}
+          </p>
+
+          <!-- Action -->
+          <div class="mt-auto pt-3 border-top">
+            <a href="{% url 'blog_detail' blog.id %}" class="btn btn-outline-primary btn-sm">
+              Read Full Review
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+      <h4 class="text-muted">No reviews yet</h4>
+      {% if user.is_authenticated %}
+      <a href="{% url 'create_blog' %}" class="btn btn-primary mt-3">Create Your First Review</a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+  body {
+    background: linear-gradient(135deg, #0a0a0a -5%, #1a1a2e 50%, #16213e 100%);
+    min-height: 100vh;
+    color: #e0e0e0;
+  }
+
+  .text-muted {
+    color: #a0a0a0 !important;
+  }
+
+    /* Card Styling - Dark Theme */
+  .blog-card {
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #2d2d2d;
+    border: 1px solid rgba(129, 125, 125, 0.1);
+  }
+
+  .blog-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+    background: #222222;
+  }
+
+  .card-body {
+    color: #e0e0e0;
+  }
+
+  .card h5 {
+    color: #ffffff;
+  }
+
+  .card .border-top {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .card-img-top {
+    transition: transform 0.3s ease;
+  }
+
+  .blog-card:hover .card-img-top {
+    transform: scale(1.05);
+  }
+
+  /* Button styling for dark theme */
+  .btn-outline-primary {
+    color: #6a11cb;
+    border-color: #6a11cb;
+  }
+
+  .btn-outline-primary:hover {
+    background-color: #6a11cb;
+    color: white;
+  }
+
+  /* Badge colors for dark theme */
+  .bg-info {
+    background-color: #0984e3 !important;
+  }
+  
+  .bg-warning {
+    background-color: #fdcb6e !important;
+    color: #2d3436 !important;
+  }
+  
+  .bg-secondary {
+    background-color: #636e72 !important;
+  }
+
+  .bg-primary {
+    background-color: #6a11cb !important;
+  }
+
+  .bg-success {
+    background-color: #00b894 !important;
+  }
+
+  .bg-danger {
+    background-color: #d63031 !important;
+  }
+
+  .text-gradient {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+
+  /* Cover image placeholder */
+  .cover-placeholder {
+    height: 200px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0.8;
+  }
+
+  /* Carousel styling */
+  .carousel-container {
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  .carousel-caption {
+    bottom: 50%;
+    transform: translateY(50%);
+    left: 0;
+    right: 0;
+    padding: 0 10%;
+  }
+
+  .carousel-content {
+    backdrop-filter: blur(5px);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 5%;
+    opacity: 0.8;
+  }
+
+  .carousel-control-prev:hover,
+  .carousel-control-next:hover {
+    opacity: 1;
+  }
+
+  .carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 5px;
+  }
+
+  .carousel-item {
+    transition: transform 0.6s ease-in-out;
+  }
+
+  /* Responsive carousel */
+  @media (max-width: 768px) {
+    .carousel-image-container {
+      height: 300px !important;
+    }
+    
+    .carousel-caption {
+      padding: 0 5%;
+    }
+    
+    .carousel-content {
+      padding: 1.5rem !important;
+    }
+    
+    .display-6 {
+      font-size: 1.5rem;
+    }
+    
+    .lead {
+      font-size: 1rem;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Simple Carousel Implementation
+  let currentSlide = 0;
+  const totalSlides = 3;
+  let slideInterval;
+
+  function showSlide(index) {
+    console.log('Showing slide:', index);
+    const carousel = document.getElementById('featuredReviewsCarousel');
+    if (!carousel) {
+      console.error('Carousel element not found!');
+      return;
+    }
+    
+    const items = carousel.querySelectorAll('.carousel-item');
+    const indicators = carousel.querySelectorAll('.carousel-indicators button');
+    
+    // Hide all slides
+    items.forEach(item => item.classList.remove('active'));
+    indicators.forEach(indicator => indicator.classList.remove('active'));
+    
+    // Show current slide
+    if (items[index]) items[index].classList.add('active');
+    if (indicators[index]) indicators[index].classList.add('active');
+    
+    currentSlide = index;
+  }
+
+  function nextSlide() {
+    console.log('Next slide called. Current:', currentSlide);
+    currentSlide = (currentSlide + 1) % totalSlides;
+    showSlide(currentSlide);
+  }
+
+  function prevSlide() {
+    console.log('Prev slide called. Current:', currentSlide);
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    showSlide(currentSlide);
+  }
+
+  function startAutoSlide() {
+    console.log('Starting auto slide...');
+    stopAutoSlide(); // Clear any existing interval
+    slideInterval = setInterval(nextSlide, 3000); // Change every 3 seconds (for testing)
+  }
+
+  function stopAutoSlide() {
+    console.log('Stopping auto slide...');
+    if (slideInterval) {
+      clearInterval(slideInterval);
+      slideInterval = null;
+    }
+  }
+
+  // Initialize carousel when DOM is loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing carousel...');
+    
+    // Set up indicator clicks
+    const indicators = document.querySelectorAll('.carousel-indicators button');
+    console.log('Found indicators:', indicators.length);
+    
+    indicators.forEach((indicator, index) => {
+      // Remove existing click listeners and add new ones
+      indicator.setAttribute('onclick', `showSlide(${index})`);
+    });
+
+    // Set up hover events for the entire carousel
+    const carousel = document.getElementById('featuredReviewsCarousel');
+    if (carousel) {
+      carousel.addEventListener('mouseenter', function() {
+        console.log('Mouse entered carousel, pausing...');
+        stopAutoSlide();
+      });
+      
+      carousel.addEventListener('mouseleave', function() {
+        console.log('Mouse left carousel, resuming...');
+        startAutoSlide();
+      });
+    }
+
+    // Start auto-sliding
+    startAutoSlide();
+    
+    // Test: Manually trigger next slide after 1 second to verify it works
+    setTimeout(function() {
+      console.log('Test: Auto slide should have started');
+    }, 1000);
+  });
+
+  // Also make functions globally available for onclick attributes
+  window.showSlide = showSlide;
+  window.nextSlide = nextSlide;
+  window.prevSlide = prevSlide;
+  window.startAutoSlide = startAutoSlide;
+  window.stopAutoSlide = stopAutoSlide;
+</script>
+{% endblock %}

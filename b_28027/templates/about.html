@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Hero Section -->
+    <div class="text-center mb-4">
+        <div class="icon-circle-md text-white mx-auto mb-3" style="background: linear-gradient(90deg, #6a11cb, #2575fc);">
+            <i class="fas fa-film fa-2x"></i>
+        </div>
+        <h1 class="display-5 fw-bold text-gradient mb-2">Welcome to ReviewSphere</h1>
+        <p class="lead text-muted mb-3">Your go-to destination for authentic movie & TV series reviews</p>
+        <div class="d-flex justify-content-center gap-2">
+            <a href="{% url 'home' %}" class="btn btn-primary px-3 py-2" style="background: linear-gradient(90deg, #6a11cb, #2575fc); border: none;">
+                <i class="fas fa-play-circle me-2"></i>Explore Reviews
+            </a>
+            {% if not user.is_authenticated %}
+            <a href="{% url 'login' %}" class="btn btn-outline-primary px-3 py-2" style="color: #6a11cb; border-color: #6a11cb;">
+                <i class="fas fa-user-plus me-2"></i>Join Now
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Mission Statement -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-sm p-3" style="background: #2d2d2d; border: 1px solid rgba(129, 125, 125, 0.1);">
+                <div class="card-body text-center" style="color: #e0e0e0;">
+                    <h4 class="h5 mb-2" style="color: #ffffff;">Our Mission</h4>
+                    <p class="mb-0">To create a vibrant community where movie enthusiasts can share genuine reviews, discover new content, and connect through the power of AI-powered sentiment analysis. We believe in authentic storytelling and honest critiques that help everyone find their next favorite watch.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="mb-4">
+        <h3 class="text-center mb-3" style="color: #ffffff;">✨ Key Features</h3>
+        <div class="row g-3">
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow h-100 hover-lift" style="background: #2d2d2d; border: 1px solid rgba(129, 125, 125, 0.1);">
+                    <div class="card-body text-center p-3" style="color: #e0e0e0;">
+                        <div class="feature-icon-circle-sm mb-2 mx-auto" style="background: rgba(106, 17, 203, 0.2); color: #6a11cb;">
+                            <i class="fas fa-edit fa-2x"></i>
+                        </div>
+                        <h6 class="card-title fw-bold" style="color: #ffffff;">Create Reviews</h6>
+                        <p class="card-text text-muted small">Share your thoughts on movies and TV series with our intuitive review system. Express your opinions freely and contribute to our growing community.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow h-100 hover-lift" style="background: #2d2d2d; border: 1px solid rgba(129, 125, 125, 0.1);">
+                    <div class="card-body text-center p-3" style="color: #e0e0e0;">
+                        <div class="feature-icon-circle-sm mb-2 mx-auto" style="background: rgba(0, 184, 148, 0.2); color: #00b894;">
+                            <i class="fas fa-brain fa-2x"></i>
+                        </div>
+                        <h6 class="card-title fw-bold" style="color: #ffffff;">AI Sentiment Analysis</h6>
+                        <p class="card-text text-muted small">Our advanced AI automatically analyzes the emotional tone of each review, categorizing them as Positive, Negative, or Neutral for quick insights.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow h-100 hover-lift" style="background: #2d2d2d; border: 1px solid rgba(129, 125, 125, 0.1);">
+                    <div class="card-body text-center p-3" style="color: #e0e0e0;">
+                        <div class="feature-icon-circle-sm mb-2 mx-auto" style="background: rgba(253, 203, 110, 0.2); color: #fdcb6e;">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                        <h6 class="card-title fw-bold" style="color: #ffffff;">Community Engagement</h6>
+                        <p class="card-text text-muted small">Join discussions, comment on reviews, and connect with fellow movie buffs. Your voice matters in our growing community of entertainment enthusiasts.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow h-100 hover-lift" style="background: #2d2d2d; border: 1px solid rgba(129, 125, 125, 0.1);">
+                    <div class="card-body text-center p-3" style="color: #e0e0e0;">
+                        <div class="feature-icon-circle-sm mb-2 mx-auto" style="background: rgba(9, 132, 227, 0.2); color: #0984e3;">
+                            <i class="fas fa-mobile-alt fa-2x"></i>
+                        </div>
+                        <h6 class="card-title fw-bold" style="color: #ffffff;">Responsive Design</h6>
+                        <p class="card-text text-muted small">Enjoy a seamless experience across all devices. Our website is optimized for desktop, tablet, and mobile viewing with beautiful, intuitive interfaces.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Call to Action -->
+    <div class="text-center mt-4 pt-4">
+        <div class="card border-0 shadow" style="background: linear-gradient(90deg, #6a11cb, #2575fc);">
+            <div class="card-body p-4">
+                <h4 class="h3 mb-2" style="color: #ffffff;">Ready to Join Our Community?</h4>
+                <p class="mb-3 opacity-75" style="color: rgba(255, 255, 255, 0.8);">Start sharing your movie and TV series reviews today and connect with fellow entertainment enthusiasts.</p>
+                <div class="d-flex justify-content-center gap-2">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'create_blog' %}" class="btn btn-light px-3 py-2" style="color: #6a11cb;">
+                        <i class="fas fa-plus-circle me-2"></i>Create Review
+                    </a>
+                    {% else %}
+                    <a href="{% url 'signup' %}" class="btn btn-light px-3 py-2" style="color: #6a11cb;">
+                        <i class="fas fa-user-plus me-2"></i>Sign Up Free
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'home' %}" class="btn btn-outline-light px-3 py-2" style="color: white; border-color: white;">
+                        <i class="fas fa-play me-2"></i>Browse Reviews
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #0a0a0a -5%, #1a1a2e 50%, #16213e 100%);
+        min-height: 100vh;
+        color: #e0e0e0;
+    }
+    
+    .text-muted {
+        color: #a0a0a0 !important;
+    }
+    
+    .text-gradient {
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .icon-circle-md {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        box-shadow: 0 8px 25px rgba(106, 17, 203, 0.3);
+    }
+    
+    .feature-icon-circle-sm {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3) !important;
+        background: #222222 !important;
+    }
+    
+    .hover-lift:hover .feature-icon-circle-sm {
+        transform: scale(1.1);
+    }
+    
+    /* Badge colors for dark theme */
+    .bg-info {
+        background-color: #0984e3 !important;
+    }
+    
+    .bg-warning {
+        background-color: #fdcb6e !important;
+        color: #2d3436 !important;
+    }
+    
+    .bg-secondary {
+        background-color: #636e72 !important;
+    }
+    
+    .bg-primary {
+        background-color: #6a11cb !important;
+    }
+    
+    .bg-success {
+        background-color: #00b894 !important;
+    }
+    
+    .bg-danger {
+        background-color: #d63031 !important;
+    }
+    
+    /* Button styling for dark theme */
+    .btn-outline-primary {
+        color: #6a11cb;
+        border-color: #6a11cb;
+    }
+    
+    .btn-outline-primary:hover {
+        background-color: #6a11cb;
+        color: white;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .display-5 {
+            font-size: 2rem;
+        }
+        
+        .icon-circle-md {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+        
+        .card-body.p-4 {
+            padding: 1.5rem !important;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Animate feature cards on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const featureCards = document.querySelectorAll('.hover-lift');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        featureCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(15px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+        
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 60,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

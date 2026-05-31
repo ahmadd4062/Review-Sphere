@@ -1,0 +1,321 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Page Header - Compact -->
+            <div class="text-center mb-3">
+                <h1 class="fw-bold text-gradient mb-1">Get In Touch</h2>
+                <p class="text-muted small mb-2">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+            </div>
+
+            <!-- Success Message - More Compact -->
+            {% if success %}
+            <div class="alert alert-success alert-dismissible fade show shadow-sm py-2 mb-3" role="alert"
+                style="background-color: #00b894; border: none; color: white;">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <small>Message Sent Successfully! We'll get back to you soon.</small>
+                    <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="alert" aria-label="Close" style="font-size: 0.8rem;"></button>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Contact Form - Compact -->
+            <div class="card border-0 shadow" style="background: #2d2d2d; border: 1px solid rgba(129, 125, 125, 0.1);">
+                <!-- Form Header - Compact -->
+                <div class="card-header py-3" style="background: linear-gradient(90deg, #6a11cb, #2575fc);">
+                    <div class="d-flex align-items-center">
+                        <div class="form-icon-sm me-2">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0" style="color: #ffffff;">Send Us a Message</h6>
+                            <small class="opacity-75" style="color: rgba(255, 255, 255, 0.8);">Fill out the form below</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Body - Compact -->
+                <div class="card-body p-4" style="color: #e0e0e0;">
+                    <form method="POST" id="contactForm">
+                        {% csrf_token %}
+
+                        <!-- Display non-field errors - Compact -->
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger py-1 px-2 mb-2 small"
+                            style="background-color: #d63031; border: none; color: white;">
+                            {% for error in form.non_field_errors %}
+                            <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!-- Form Fields - Compact Grid -->
+                        <div class="row g-2">
+                            {% for field in form %}
+                            <div class="{% if field.name == 'message' %}col-12{% else %}col-md-6{% endif %} mb-2">
+                                <div class="form-group">
+                                    <label for="{{ field.id_for_label }}" class="small fw-bold mb-1">
+                                        <i class="fas fa-{% if field.name == 'name' %}user{% elif field.name == 'email' %}envelope{% else %}comment-dots{% endif %} me-1" style="color: #6a11cb;"></i>
+                                        {{ field.label }}
+                                    </label>
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                    <small class="text-muted d-block mt-1">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% if field.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in field.errors %}
+                                        <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Character Counter for Message -->
+                        <div class="d-flex justify-content-between align-items-center mt-1 mb-2">
+                            <small class="text-muted">
+                                <span id="charCount">0</span> characters
+                            </small>
+                            <small class="text-muted">
+                                <i class="fas fa-lightbulb text-warning me-1"></i>
+                                Be detailed
+                            </small>
+                        </div>
+
+                        <!-- Form Actions - Compact -->
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top"
+                            style="border-color: rgba(255, 255, 255, 0.1) !important;">
+                            <a href="{% url 'home' %}" class="btn btn-sm btn-outline-secondary py-1 px-2" style="color: #636e72; border-color: #636e72; font-size: 0.8rem;">
+                                <i class="fas fa-arrow-left me-1"></i>Back
+                            </a>
+                            <div class="d-flex gap-2">
+                                <button type="reset" class="btn btn-sm btn-outline-danger py-1 px-2" style="color: #d63031; border-color: #d63031; font-size: 0.8rem;">
+                                    <i class="fas fa-redo me-1"></i>Clear
+                                </button>
+                                <button type="submit" class="btn btn-sm btn-primary py-1 px-3" style="background: linear-gradient(90deg, #6a11cb, #2575fc); border: none; font-size: 0.8rem;">
+                                    <i class="fas fa-paper-plane me-1"></i>Send
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #0a0a0a -5%, #1a1a2e 50%, #16213e 100%);
+        min-height: 100vh;
+        color: #e0e0e0;
+    }
+
+    .text-muted {
+        color: #a0a0a0 !important;
+    }
+
+    .text-gradient {
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .form-icon-sm {
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        color: white;
+    }
+
+    /* Form field styling */
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.4rem 0.75rem;
+        background-color: #222222;
+        border: 1px solid rgba(129, 125, 125, 0.3);
+        border-radius: 6px;
+        font-size: 0.9rem;
+        color: #ffffff;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #6a11cb;
+        box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.2);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+        color: #a0a0a0;
+        font-size: 0.85rem;
+    }
+
+    /* Character counter colors */
+    #charCount {
+        transition: color 0.2s ease;
+    }
+
+    /* Alert styling */
+    .alert-success {
+        background-color: #00b894;
+    }
+
+    .btn-close-white {
+        filter: brightness(0) invert(1);
+        opacity: 0.8;
+    }
+
+    .btn-close-white:hover {
+        opacity: 1;
+    }
+
+    /* Card hover effect */
+    .card {
+        transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .container {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add Bootstrap classes and placeholders to form fields
+        const formFields = {
+            'id_name': {
+                class: 'form-control form-control-sm',
+                placeholder: 'Your full name',
+                icon: 'user'
+            },
+            'id_email': {
+                class: 'form-control form-control-sm',
+                placeholder: 'you@example.com',
+                icon: 'envelope'
+            },
+            'id_message': {
+                class: 'form-control',
+                placeholder: 'Your message...',
+                icon: 'comment-dots',
+                rows: 3
+            }
+        };
+
+        for (const [fieldId, config] of Object.entries(formFields)) {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.classList.add(...config.class.split(' '));
+                field.setAttribute('placeholder', config.placeholder);
+                
+                if (config.rows) {
+                    field.setAttribute('rows', config.rows);
+                }
+            }
+        }
+
+        // Character counter for message
+        const messageField = document.getElementById('id_message');
+        const charCount = document.getElementById('charCount');
+        
+        if (messageField && charCount) {
+            function updateCharCount() {
+                const length = messageField.value.length;
+                charCount.textContent = length;
+                
+                // Color coding
+                if (length < 20) {
+                    charCount.style.color = '#d63031';
+                } else if (length < 100) {
+                    charCount.style.color = '#fdcb6e';
+                } else {
+                    charCount.style.color = '#00b894';
+                }
+            }
+            
+            messageField.addEventListener('input', updateCharCount);
+            updateCharCount(); // Initial count
+            
+            // Auto-resize
+            messageField.style.height = 'auto';
+            messageField.style.height = (messageField.scrollHeight) + 'px';
+            
+            messageField.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        }
+
+        // Form validation
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                const name = document.getElementById('id_name')?.value.trim();
+                const email = document.getElementById('id_email')?.value.trim();
+                const message = document.getElementById('id_message')?.value.trim();
+                
+                if (!name || name.length < 2) {
+                    e.preventDefault();
+                    alert('Please enter your full name (min 2 characters)');
+                    return;
+                }
+                
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!email || !emailRegex.test(email)) {
+                    e.preventDefault();
+                    alert('Please enter a valid email address');
+                    return;
+                }
+                
+                if (!message || message.length < 10) {
+                    e.preventDefault();
+                    alert('Please write a more detailed message (min 10 characters)');
+                    return;
+                }
+                
+                // Show loading state
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Sending...';
+                submitBtn.disabled = true;
+            });
+        }
+
+        // Clear form confirmation
+        const resetBtn = document.querySelector('button[type="reset"]');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function(e) {
+                if (!confirm('Clear all fields?')) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

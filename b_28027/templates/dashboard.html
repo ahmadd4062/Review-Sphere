@@ -1,0 +1,65 @@
+<!-- templates/dashboard.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">ReviewSphere Dashboard</h2>
+    
+    <div class="row">
+        <!-- Stats -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Statistics</h5>
+                    <p>Total Blogs: {{ total_blogs }}</p>
+                    <p>Total API Reviews: {{ total_api_reviews }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Blogs -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Blogs</h5>
+                    {% for blog in blogs %}
+                    <div class="mb-2">
+                        <strong>{{ blog.title }}</strong><br>
+                        <small>by {{ blog.author }} | {{ blog.sentiment }}</small>
+                    </div>
+                    {% empty %}
+                    <p>No blogs yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- API Reviews -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Recent API Reviews</h5>
+            <div class="row">
+                {% for review in api_reviews %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h6>{{ review.title }}</h6>
+                            <p class="small">{{ review.content|truncatechars:100 }}</p>
+                            <span class="badge bg-info">{{ review.review_type }}</span>
+                            <span class="badge {% if review.sentiment == 'positive' %}bg-success{% else %}bg-danger{% endif %}">
+                                {{ review.sentiment }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p>No API reviews yet.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

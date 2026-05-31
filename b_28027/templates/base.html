@@ -1,0 +1,522 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <!-- Google Fonts (Optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <title>{% block title %}Movie & Series Reviews{% endblock %}</title>
+  {% block extra_css %}{% endblock %}
+
+  <style>
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      
+    }
+
+    .navbar {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding-top: 0.8rem;
+      padding-bottom: 0.8rem;
+    }
+
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #4cc9f0, #4361ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      padding-right: 0.5rem;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-link {
+      font-weight: 500;
+      padding: 0.5rem 0.5rem !important;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .search-form .form-control {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+      border-radius: 6px;
+    }
+
+    .search-form .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .search-form .btn-outline-light {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .search-form .btn-outline-light:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .navbar-toggler {
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+    }
+
+    /* Button Styles - All the same design */
+    .btn-login,
+    .btn-signup,
+    .btn-logout,
+    .btn-create {
+      font-weight: 600;
+      padding: 0.5rem 0.5rem;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-create {
+      background: #198754;
+      border-color: #198754;
+    }
+
+    .btn-create:hover {
+      background: #157347;
+      border-color: #146c43;
+      transform: translateY(-1px);
+    }
+
+    .btn-logout {
+      background: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .btn-logout:hover {
+      background: #bb2d3b;
+      border-color: #b02a37;
+      transform: translateY(-1px);
+    }
+
+    .btn-login {
+      background: #ffc107;
+      border-color: #ffc107;
+      color: #000;
+    }
+
+    .btn-login:hover {
+      background: #ffca2c;
+      border-color: #ffc720;
+      color: #000;
+      transform: translateY(-1px);
+    }
+
+    .btn-signup {
+      background: #198754;
+      border-color: #198754;
+    }
+
+    .btn-signup:hover {
+      background: #157347;
+      border-color: #146c43;
+      transform: translateY(-1px);
+    }
+
+    .user-greeting {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      margin-right: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .user-greeting i {
+      color: #4cc9f0;
+      margin-right: 0.5rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 991.98px) {
+      .nav-item {
+        margin-bottom: 0.5rem;
+      }
+
+      .btn-create {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .user-greeting {
+        margin: 0.5rem 0;
+        justify-content: center;
+      }
+
+      .search-form {
+        margin: 1rem 0;
+        width: 100%;
+      }
+
+      .search-form .form-control {
+        width: 100%;
+      }
+    }
+
+    /* Footer Styles */
+    .footer {
+      margin-top: auto;
+    }
+
+    .footer a.hover-opacity-100:hover {
+      opacity: 1 !important;
+      color: #4cc9f0 !important;
+      transform: translateX(5px);
+      transition: all 0.3s ease;
+    }
+
+    .footer .form-control:focus {
+      box-shadow: 0 0 0 0.25rem rgba(76, 201, 240, 0.25);
+      border-color: #4cc9f0;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .footer .btn-outline-light:hover {
+      background: #4cc9f0;
+      border-color: #4cc9f0;
+      color: #1a1a2e;
+    }
+
+    .social-links a {
+      transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+    }
+
+    /* Equal column spacing for footer */
+    .footer-main .row>div {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .footer-main .row>div:first-child {
+      padding-left: 1rem;
+    }
+
+    .footer-main .row>div:last-child {
+      padding-right: 1rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .footer-main {
+        text-align: center;
+      }
+
+      .footer-brand {
+        justify-content: center;
+      }
+
+      .footer-main p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .social-links {
+        justify-content: center;
+      }
+
+      .list-unstyled li a {
+        justify-content: center;
+      }
+
+      .footer-main .row>div {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-main .row>div:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 992px) {
+      .footer-main .row>div {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <!-- Brand -->
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+        <i class="fas fa-film me-2"></i>
+        ReviewSphere
+      </a>
+
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
+        aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navbar Content -->
+      <div class="collapse navbar-collapse" id="navbarMain">
+        <!-- Navigation Links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">
+              <i class="fas fa-home me-1"></i>Home
+            </a>
+
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'about' %}">
+              <i class="fas fa-info-circle me-1"></i>About
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'contact' %}">
+              <i class="fas fa-envelope me-1"></i>Contact
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'sentiment_analysis' %}">
+              <i class="fas fa-robot me-1"></i>AI Analysis
+            </a>
+          </li>
+
+
+          {% if user.is_authenticated %}
+          <li class="nav-item d-lg-none">
+            <a class="btn btn-create w-100 mt-2" href="{% url 'create_blog' %}">
+              Create Blog
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+
+        <!-- Search Form -->
+        <form class="d-flex search-form me-3" method="GET" action="{% url 'home' %}">
+          <input class="form-control me-2" type="search" name="q" placeholder="Search reviews" aria-label="Search">
+          <button class="btn btn-outline-light" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+
+        <!-- User Section -->
+        <div class="d-flex align-items-center">
+          {% if user.is_authenticated %}
+          <!-- Create Blog Button (Desktop) -->
+          <div class="d-none d-lg-block me-3">
+            <a class="btn btn-create" style="color: white;" href="{% url 'create_blog' %}">
+              Create Blog
+            </a>
+          </div>
+
+          <!-- User Greeting -->
+          <div class="user-greeting d-flex align-items-center">
+            <i class="fas fa-user-circle"></i>
+            <span>Hi, {{ user.username }}</span>
+          </div>
+
+          <!-- Logout Button -->
+          <a href="{% url 'logout' %}">
+            <button class="btn btn-logout text-white">
+              <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </button>
+          </a>
+          {% else %}
+          <!-- Signup Button -->
+          <a href="{% url 'signup' %}" class="me-2">
+            <button class="btn btn-signup text-white">
+              <i class="fas fa-user-plus me-2"></i>Signup
+            </button>
+          </a>
+
+          <!-- Login Button -->
+          <a href="{% url 'login' %}">
+            <button class="btn btn-login">
+              <i class="fas fa-sign-in-alt me-2"></i>Login
+            </button>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container my-4">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer mt-auto">
+    <div class="container-fluid px-0">
+      <!-- Main Footer Content -->
+      <div class="footer-main py-5"
+        style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-top: 1px solid rgba(76, 201, 240, 0.1);">
+        <div class="container">
+          <div class="row justify-content-center">
+            <!-- Brand and Description -->
+            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+              <div class="footer-brand mb-3">
+                <a href="{% url 'home' %}" class="text-decoration-none d-flex align-items-center">
+                  <i class="fas fa-film fs-2 me-2" style="color: #4cc9f0;"></i>
+                  <span class="fs-3 fw-bold"
+                    style="background: linear-gradient(90deg, #4cc9f0, #4361ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    ReviewSphere
+                  </span>
+                </a>
+              </div>
+              <p class="text-light opacity-75 mb-4" style="max-width: 300px;">
+                Discover, review, and share your thoughts on the latest movies and TV series. Join our community of
+                passionate cinephiles.
+              </p>
+              <div class="social-links">
+                <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2" style="width: 38px; height: 38px;">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2" style="width: 38px; height: 38px;">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2" style="width: 38px; height: 38px;">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 38px; height: 38px;">
+                  <i class="fab fa-youtube"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+              <h5 class="text-white fw-bold mb-4" style="color: #4cc9f0 !important;">Quick Links</h5>
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <a href="{% url 'home' %}"
+                    class="text-decoration-none text-light opacity-75 hover-opacity-100 d-flex align-items-center">
+                    <i class="fas fa-chevron-right me-2" style="font-size: 0.8rem; color: #4cc9f0;"></i>
+                    Home
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'about' %}"
+                    class="text-decoration-none text-light opacity-75 hover-opacity-100 d-flex align-items-center">
+                    <i class="fas fa-chevron-right me-2" style="font-size: 0.8rem; color: #4cc9f0;"></i>
+                    About Us
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'contact' %}"
+                    class="text-decoration-none text-light opacity-75 hover-opacity-100 d-flex align-items-center">
+                    <i class="fas fa-chevron-right me-2" style="font-size: 0.8rem; color: #4cc9f0;"></i>
+                    Contact
+                  </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="mb-2">
+                  <a href="{% url 'create_blog' %}"
+                    class="text-decoration-none text-light opacity-75 hover-opacity-100 d-flex align-items-center">
+                    <i class="fas fa-chevron-right me-2" style="font-size: 0.8rem; color: #4cc9f0;"></i>
+                    Create Blog
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+
+            <!-- Categories -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+              <h5 class="text-white fw-bold mb-4" style="color: #4cc9f0 !important;">Categories</h5>
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <a href="{% url 'home' %}?category=movies"
+                    class="text-decoration-none text-light opacity-75 hover-opacity-100 d-flex align-items-center">
+                    <i class="fas fa-film me-2" style="color: #4cc9f0;"></i>
+                    Movies
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'home' %}?category=series"
+                    class="text-decoration-none text-light opacity-75 hover-opacity-100 d-flex align-items-center">
+                    <i class="fas fa-tv me-2" style="color: #4cc9f0;"></i>
+                    TV Series
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'home' %}?category=latest"
+                    class="text-decoration-none text-light opacity-75 hover-opacity-100 d-flex align-items-center">
+                    <i class="fas fa-star me-2" style="color: #4cc9f0;"></i>
+                    Latest Reviews
+                  </a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'home' %}?category=top"
+                    class="text-decoration-none text-light opacity-75 hover-opacity-100 d-flex align-items-center">
+                    <i class="fas fa-fire me-2" style="color: #4cc9f0;"></i>
+                    Top Rated
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Custom JavaScript -->
+  <script>
+    // Add active class to current page nav item
+    document.addEventListener('DOMContentLoaded', function () {
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+          link.style.background = 'rgba(76, 201, 240, 0.15)';
+          link.style.color = '#4cc9f0';
+        }
+      });
+    });
+  </script>
+
+  {% block extra_js %}{% endblock %}
+
+</body>
+
+</html>
